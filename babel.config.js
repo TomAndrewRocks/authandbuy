@@ -21,6 +21,10 @@ module.exports = function (api) {
           alias: {
             '@components': './app/shared/components',
             '@themes': './app/shared/themes',
+            '@screens': './app/shared/screens',
+            '@interfaces': './app/shared/interfaces',
+            '@web': './app/modules/web',
+            '@mobile': './app/modules/mobile',
           },
         },
       ],
