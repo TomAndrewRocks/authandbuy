@@ -4,10 +4,14 @@
     "strict": true,
     "baseUrl": "./",
     "paths": {
+      "@api/*": ["app/shared/api/*"],
       "@components/*": ["app/shared/components/*"],
+      "@contexts/*": ["app/shared/contexts/*"],
       "@themes/*": ["app/shared/themes/*"],
       "@screens/*": ["app/shared/screens/*"],
+      "@routes/*": ["app/shared/routes/*"],
       "@interfaces/*": ["app/shared/interfaces/*"],
+      "@utils/*": ["app/shared/utils/*"],
       "@web/*": ["app/modules/web/*"],
       "@mobile/*": ["app/modules/mobile/*"]
     }

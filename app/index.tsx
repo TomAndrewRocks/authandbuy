@@ -1,16 +1,16 @@
-import NativeApp from '@mobile/index';
-import { theme } from '@themes/theme';
-import WebApp from '@web/index';
+import LayoutScreen from '@components/Layout';
+import { useAuthStore } from '@contexts/useUserStore';
+import { NavigationContainer } from '@react-navigation/native';
+import MyDrawer from '@routes/drawer.routes';
+import Login from '@screens/login';
 import * as WebBrowser from 'expo-web-browser';
-import { Platform } from 'react-native';
-import { PaperProvider } from 'react-native-paper';
 
 WebBrowser.maybeCompleteAuthSession();
+
 export default function Page() {
+  const { isUserLogged } = useAuthStore();
+  console.log(isUserLogged);
   return (
-    <PaperProvider theme={theme}>
-      {Platform.OS === 'android' && <NativeApp />}
-      {Platform.OS === 'web' && <WebApp />}
-    </PaperProvider>
+    <NavigationContainer independent>{isUserLogged ? <MyDrawer /> : <Login />}</NavigationContainer>
   );
 }
