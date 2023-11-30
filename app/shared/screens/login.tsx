@@ -37,7 +37,7 @@ export default function Login() {
         gap: 100,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: theme.colors.white,
+        backgroundColor: theme.lightColors?.white,
       }}>
       {Platform.OS !== 'web' && (
         <LottieView
@@ -45,7 +45,7 @@ export default function Login() {
           ref={animation}
           style={{
             width: width * 0.8,
-            backgroundColor: theme.colors.white,
+            backgroundColor: theme.lightColors?.white,
           }}
           // Find more Lottie files at https://lottiefiles.com/featured
           source={require('../../../assets/app.json')}

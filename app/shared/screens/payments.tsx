@@ -23,7 +23,7 @@ export default function Payments() {
         </Text>
         <ActionButton
           title="Add Card"
-          bgColor={theme.colors.primary}
+          bgColor={theme.lightColors?.primary}
           onPress={() => console.log('hey')}
         />
       </View>

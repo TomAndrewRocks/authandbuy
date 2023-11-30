@@ -1,41 +1,23 @@
-import { MD3LightTheme as DefaultTheme } from 'react-native-paper';
+import { createTheme } from '@rneui/themed';
 
-export const theme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
+export const theme = createTheme({
+  lightColors: {
     primary: '#207BD1',
     secondary: '#F3DC0E',
     white: '#FFFFFF',
     black: '#000',
-    onPrimary: '#FFFFFF',
-    primaryContainer: '#87C5FF',
-    onPrimaryContainer: '#FFFFFF',
-    onSecondary: '#000000',
-    secondaryContainer: '#FFF59B',
-    onSecondaryContainer: '#000000',
-    tertiary: '#F4F4F4',
-    onTertiary: '#FFFFFF',
-    tertiaryContainer: '#FFFFFF',
-    onTertiaryContainer: '#000000',
     error: '#FF0000',
-    onError: '#FFFFFF',
-    errorContainer: '#FFDDDD',
-    onErrorContainer: '#000000',
     background: '#FFFFFF',
-    onBackground: '#000000',
-    surface: '#FFFFFF',
-    onSurface: '#000000',
-    surfaceVariant: '#F3F3F3',
-    onSurfaceVariant: '#000000',
   },
-  breakpoints: {
-    values: {
-      xs: 330,
-      sm: 414,
-      md: 768,
-      lg: 1024,
-      xl: 1200,
-    },
+  darkColors: {
+    primary: '#000',
   },
-};
+  spacing: {
+    xs: 330,
+    sm: 414,
+    md: 768,
+    lg: 1024,
+    xl: 1200,
+  },
+  mode: 'light',
+});

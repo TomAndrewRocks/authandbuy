@@ -13,7 +13,7 @@ export default function Navbar() {
     <View
       style={{
         width: '100%',
-        backgroundColor: theme.colors.primary,
+        backgroundColor: theme.lightColors?.primary,
         height: height * 0.15,
         justifyContent: 'space-between',
         paddingHorizontal: 20,
@@ -21,7 +21,7 @@ export default function Navbar() {
         alignItems: 'center',
         paddingTop: 40,
       }}>
-      <StatusBar style="light" backgroundColor={theme.colors.primary} />
+      <StatusBar style="light" backgroundColor={theme.lightColors?.primary} />
       <DrawerButton />
       <Avatar.Image
         size={40}

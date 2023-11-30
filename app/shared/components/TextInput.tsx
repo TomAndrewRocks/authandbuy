@@ -14,10 +14,10 @@ export default function Input(props: ITextInput) {
       placeholder={props.placeholder}
       onChangeText={props.onChange}
       contentStyle={props.color}
-      activeUnderlineColor={theme.colors.primary}
-      underlineColor={theme.colors.primaryContainer}
+      activeUnderlineColor={theme.lightColors?.primary}
+      underlineColor={theme.lightColors?.primary}
       style={{
-        backgroundColor: theme.colors.white,
+        backgroundColor: theme.lightColors?.white,
         height: height * 0.085,
         width: Platform.OS !== 'web' ? width * 0.75 : null,
       }}
