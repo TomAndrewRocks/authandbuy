@@ -70,7 +70,7 @@ export default function MyDrawer() {
           options={{
             drawerIcon: ({ focused, size, color }) => (
               <Ionicons
-                name={'finger-print'}
+                name="finger-print"
                 size={size}
                 // color={handleFocusedColor(focused)}
               />

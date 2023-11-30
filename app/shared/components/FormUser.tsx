@@ -8,9 +8,13 @@ import { HelperText } from 'react-native-paper';
 
 import Input from './TextInput';
 import { userFormSchema } from '../services/useLoginValidator';
+import { useAuthStore } from '@contexts/useUserStore';
+import useHaptics from '@utils/useHaptics';
 
 function FormUser() {
   const userFormScheme = userFormSchema();
+  const { setUserLogged } = useAuthStore();
+  const { lightVibration } = useHaptics();
   const {
     control,
     handleSubmit,
@@ -35,12 +39,24 @@ function FormUser() {
     defaultValue: '',
   });
 
-  const onSubmit = (data: IForm) => console.log(data);
+  const onSubmit = async (data: IForm) => {
+    await lightVibration();
+    setUserLogged(true);
+    console.log(data);
+  };
+
+  const data: IForm = {
+    email: emailWatch,
+    name: nameWatch,
+  };
 
   React.useEffect(() => {
     if (nameWatch || emailWatch) {
-      router.push('/shared/routes/drawer.routes');
-      console.group(nameWatch, emailWatch);
+      setTimeout(() => {
+        router.push('/shared/routes/drawer.routes');
+        onSubmit(data);
+        console.group(nameWatch, emailWatch);
+      }, 1000);
     }
   }, [nameWatch, emailWatch]);
 

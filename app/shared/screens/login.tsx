@@ -8,7 +8,7 @@ import { router } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 import LottieView from 'lottie-react-native';
 import React from 'react';
-import { Platform, View } from 'react-native';
+import { Platform } from 'react-native';
 
 export default function Login() {
   const animation = React.useRef(null);

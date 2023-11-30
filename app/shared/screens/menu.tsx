@@ -1,3 +1,4 @@
+import LayoutScreen from '@components/Layout';
 import Navbar from '@components/Navbar';
 import { useAuthStore } from '@contexts/useUserStore';
 import * as ImagePicker from 'expo-image-picker';
@@ -16,7 +17,7 @@ export default function Menu() {
       quality: 1,
     });
 
-    console.log(result);
+    console.log('pic', result);
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
@@ -28,11 +29,8 @@ export default function Menu() {
   const extension = filename && filename?.split('.')?.pop()?.toLowerCase();
   const shortenedName = filename && filename.substring(0, 20);
 
-  Alert.alert(JSON.stringify(isUserLogged));
-
   return (
-    <View>
-      <Navbar />
+    <LayoutScreen>
       {/* <ActionButton
         onPress={pickImage}
         bgColor={theme.colors.tertiary}
@@ -45,6 +43,7 @@ export default function Menu() {
         }}
       />
       <Text>{image && `${shortenedName}....${extension}`}</Text> */}
-    </View>
+      <Text>{JSON.stringify(isUserLogged) ? 'User Logged' : 'Not authenthicated'}</Text>
+    </LayoutScreen>
   );
 }

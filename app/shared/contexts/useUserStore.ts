@@ -19,7 +19,7 @@ export const useAuthStore = create<IUser>(
     }),
     {
       name: 'auth-store',
-      //   getStorage: () => AsyncStorage,
+      getStorage: () => AsyncStorage,
     },
   ),
 );
