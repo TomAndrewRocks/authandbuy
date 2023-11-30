@@ -1,4 +1,5 @@
 import ActionButton from '@components/Buttons/ActionButton';
+import Footer from '@components/Footer';
 import LayoutScreen from '@components/Layout';
 import { useAuthStore } from '@contexts/useUserStore';
 import { theme } from '@themes/theme';
@@ -30,7 +31,14 @@ export default function Login() {
   };
 
   return (
-    <LayoutScreen style={{ gap: 100, alignItems: 'center', justifyContent: 'center' }}>
+    <LayoutScreen
+      style={{
+        flex: 1,
+        gap: 100,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: theme.colors.white,
+      }}>
       {Platform.OS !== 'web' && (
         <LottieView
           autoPlay
@@ -49,6 +57,7 @@ export default function Login() {
         title="Google Sign In"
         onPress={handleSignIn}
       />
+      <Footer />
     </LayoutScreen>
   );
 }

@@ -19,6 +19,7 @@ export default function Navbar() {
         paddingHorizontal: 20,
         flexDirection: 'row',
         alignItems: 'center',
+        paddingTop: 40,
       }}>
       <StatusBar style="light" backgroundColor={theme.colors.primary} />
       <DrawerButton />
