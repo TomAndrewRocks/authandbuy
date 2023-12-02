@@ -14,6 +14,7 @@ export default function Login() {
   const animation = React.useRef(null);
   const { width } = useMeasures();
   const { setUserLogged } = useAuthStore();
+
   const handleSignIn = async () => {
     try {
       // await WebBrowser.openAuthSessionAsync(
@@ -51,12 +52,7 @@ export default function Login() {
           source={require('../../../assets/app.json')}
         />
       )}
-      <ActionButton
-        bgColor={theme.colors.primary}
-        icon="google"
-        title="Google Sign In"
-        onPress={handleSignIn}
-      />
+      <ActionButton onPress={handleSignIn} title="Google Sign In" type="solid" />
       <Footer />
     </LayoutScreen>
   );

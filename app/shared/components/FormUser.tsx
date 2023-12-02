@@ -1,15 +1,14 @@
+import { useAuthStore } from '@contexts/useUserStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { IForm } from '@interfaces/IForm';
+import useHaptics from '@utils/useHaptics';
 import { router } from 'expo-router';
 import React from 'react';
 import { useForm, Controller, useWatch } from 'react-hook-form';
-import { View } from 'react-native';
-import { HelperText } from 'react-native-paper';
+import { Platform, Text, View } from 'react-native';
 
 import Input from './TextInput';
 import { userFormSchema } from '../services/useLoginValidator';
-import { useAuthStore } from '@contexts/useUserStore';
-import useHaptics from '@utils/useHaptics';
 
 function FormUser() {
   const userFormScheme = userFormSchema();
@@ -40,7 +39,9 @@ function FormUser() {
   });
 
   const onSubmit = async (data: IForm) => {
-    await lightVibration();
+    if (Platform.OS !== 'web') {
+      await lightVibration();
+    }
     setUserLogged(true);
     console.log(data);
   };
@@ -77,11 +78,7 @@ function FormUser() {
               onChange={onChange}
               value={value}
             />
-            {errors.name && (
-              <HelperText type="error" visible>
-                {errors.name.message}
-              </HelperText>
-            )}
+            {errors.name && <Text>{errors.name.message}</Text>}
           </>
         )}
       />
@@ -99,13 +96,8 @@ function FormUser() {
               placeholder="Type your e-mail"
               onBlur={onBlur}
               onChange={onChange}
-              value={value}
             />
-            {errors.email && (
-              <HelperText type="error" visible>
-                {errors.email.message}
-              </HelperText>
-            )}
+            {errors.email && <Text>{errors.email.message}</Text>}
           </>
         )}
       />

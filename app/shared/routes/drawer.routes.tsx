@@ -6,6 +6,8 @@ import Biometrics from '@screens/biometrics';
 import Favorites from '@screens/favorites';
 import Menu from '@screens/menu';
 import Payments from '@screens/payments';
+import { theme } from '@themes/theme';
+
 const Drawer = createDrawerNavigator();
 
 export default function MyDrawer() {
@@ -16,12 +18,6 @@ export default function MyDrawer() {
       initialRouteName="home"
       screenOptions={{
         headerShown: false,
-        // drawerStyle: {
-        //   backgroundColor: hasDarkTheme ? '#353535' : '#f1f1f1',
-        // },
-        // drawerLabelStyle: {
-        //   color: hasDarkTheme ? 'yellow' : '#207BD1',
-        // },
       }}
       drawerContent={(props) => <CustomDrawer {...props} />}>
       <Drawer.Screen
@@ -32,7 +28,7 @@ export default function MyDrawer() {
             <Ionicons
               name={focused ? 'home' : 'home-outline'}
               size={size}
-              // color={handleFocusedColor(focused)}
+              color={focused ? 'white' : color}
             />
           ),
         }}
@@ -45,7 +41,7 @@ export default function MyDrawer() {
             <Ionicons
               name={focused ? 'heart' : 'heart-outline'}
               size={size}
-              // color={handleFocusedColor(focused)}
+              color={focused ? 'white' : color}
             />
           ),
         }}
@@ -58,7 +54,7 @@ export default function MyDrawer() {
             <Ionicons
               name={focused ? 'card' : 'card-outline'}
               size={size}
-              // color={handleFocusedColor(focused)}
+              color={focused ? 'white' : color}
             />
           ),
         }}
@@ -72,7 +68,7 @@ export default function MyDrawer() {
               <Ionicons
                 name="finger-print"
                 size={size}
-                // color={handleFocusedColor(focused)}
+                color={focused ? 'white' : color}
               />
             ),
           }}

@@ -1,13 +1,13 @@
 import Footer from '@components/Footer';
 import FormUser from '@components/FormUser';
 import LayoutScreen from '@components/Layout';
+import { Text } from '@rneui/themed';
 import React from 'react';
-import { Text } from 'react-native-paper';
 
 export default function Register() {
   return (
     <LayoutScreen>
-      <Text variant="displaySmall" style={{ position: 'absolute', top: 0, paddingVertical: 50 }}>
+      <Text h2 style={{ position: 'absolute', top: 0, paddingVertical: 50 }}>
         Next up: Your data!
       </Text>
       <FormUser />

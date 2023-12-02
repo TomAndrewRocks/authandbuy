@@ -8,5 +8,5 @@ export const DrawerButton = () => {
     navigation.dispatch(DrawerActions.openDrawer());
   };
 
-  return <Feather name="align-justify" size={24} onPress={handleOpenDrawer} color="#fafafa" />;
+  return <Feather name="align-justify" size={24} onPress={handleOpenDrawer} color="#000" />;
 };

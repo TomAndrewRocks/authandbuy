@@ -11,6 +11,7 @@ import useMeasures from '@utils/useMeasures';
 import { router } from 'expo-router';
 import React from 'react';
 import { Alert } from 'react-native';
+import { theme } from '@themes/theme';
 
 export default function CustomDrawer(props: DrawerContentComponentProps) {
   const { height } = useMeasures();
@@ -36,6 +37,7 @@ export default function CustomDrawer(props: DrawerContentComponentProps) {
       contentContainerStyle={{
         flex: 1,
         paddingTop: height * 0.1,
+        backgroundColor: theme.lightColors?.primary
       }}>
       <DrawerItemList {...props} />
       <DrawerItem

@@ -5,7 +5,7 @@ export interface IButton {
   icon?: string;
   title?: string;
   bgColor?: string;
-  mode?: 'text' | 'contained' | 'outlined' | 'elevated' | 'contained-tonal' | undefined;
+  type?: 'clear' | 'solid' | 'outline' | undefined;
   style?: StyleProp<ViewStyle>;
   textColor?: string;
 }
