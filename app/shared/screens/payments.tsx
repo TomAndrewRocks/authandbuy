@@ -25,6 +25,7 @@ export default function Payments() {
           title="Add Card"
           bgColor={theme.lightColors?.primary}
           onPress={() => console.log('hey')}
+          icon="card"
         />
       </View>
     </LayoutScreen>

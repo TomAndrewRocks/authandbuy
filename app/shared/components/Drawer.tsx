@@ -7,11 +7,11 @@ import {
   DrawerItemList,
 } from '@react-navigation/drawer';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
+import { theme } from '@themes/theme';
 import useMeasures from '@utils/useMeasures';
 import { router } from 'expo-router';
 import React from 'react';
 import { Alert } from 'react-native';
-import { theme } from '@themes/theme';
 
 export default function CustomDrawer(props: DrawerContentComponentProps) {
   const { height } = useMeasures();
@@ -37,26 +37,21 @@ export default function CustomDrawer(props: DrawerContentComponentProps) {
       contentContainerStyle={{
         flex: 1,
         paddingTop: height * 0.1,
-        backgroundColor: theme.lightColors?.primary
+        backgroundColor: theme.lightColors?.primary,
       }}>
       <DrawerItemList {...props} />
       <DrawerItem
         label="Logout"
         onPress={handleLogout}
-        // labelStyle={{ color: hasDarkTheme ? 'white' : 'black' }}
-        icon={({ focused, size, color }) => (
-          <Ionicons
-            name="log-out-outline"
-            size={size}
-            //  color={hasDarkTheme ? 'white' : 'black'}
-          />
+        labelStyle={{ color: theme.lightColors?.secondary }}
+        icon={({ size }) => (
+          <Ionicons name="log-out-outline" size={size} color={theme.lightColors?.white} />
         )}
         style={{
           position: 'absolute',
           bottom: 1,
           width: '100%',
           paddingRight: 20,
-          // backgroundColor: hasDarkTheme ? '#353535' : '#f1f1f1',
         }}
       />
     </DrawerContentScrollView>

@@ -10,4 +10,5 @@ export interface ITextInput {
   onBlur?: () => void;
   color?: StyleProp<TextStyle>;
   fieldError?: FieldError | undefined;
+  icon: string;
 }

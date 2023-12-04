@@ -4,7 +4,7 @@ import LayoutScreen from '@components/Layout';
 import { useAuthStore } from '@contexts/useUserStore';
 import { theme } from '@themes/theme';
 import useMeasures from '@utils/useMeasures';
-import { router } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 import LottieView from 'lottie-react-native';
 import React from 'react';
@@ -31,6 +31,8 @@ export default function Login() {
     }
   };
 
+  if (Platform.OS === 'web') document.title = 'Login';
+
   return (
     <LayoutScreen
       style={{
@@ -52,7 +54,7 @@ export default function Login() {
           source={require('../../../assets/app.json')}
         />
       )}
-      <ActionButton onPress={handleSignIn} title="Google Sign In" type="solid" />
+      <ActionButton icon="logo-google" onPress={handleSignIn} title="Google Sign In" type="solid" />
       <Footer />
     </LayoutScreen>
   );

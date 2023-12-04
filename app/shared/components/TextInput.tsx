@@ -1,7 +1,8 @@
 import { ITextInput } from '@interfaces/ITextInput';
+import { Icon, Input as TextInput } from '@rneui/themed';
 import useMeasures from '@utils/useMeasures';
 import React from 'react';
-import { TextInput } from 'react-native';
+import { Platform } from 'react-native';
 
 export default function Input(props: ITextInput) {
   const { width, height } = useMeasures();
@@ -11,13 +12,8 @@ export default function Input(props: ITextInput) {
       onChangeText={props.onChange}
       onBlur={props.onBlur}
       placeholder={props.placeholder}
-      // activeUnderlineColor={theme.lightColors?.primary}
-      // underlineColor={theme.lightColors?.primary}
-      // style={{
-      //   backgroundColor: theme.lightColors?.white,
-      //   height: height * 0.085,
-      //   width: Platform.OS !== 'web' ? width * 0.75 : null,
-      // }}
+      inputContainerStyle={{ width: Platform.OS === 'web' ? width * 0.2 : width * 0.5, height: 50 }}
+      leftIcon={<Icon name={props.icon} type="ionicon" size={24} color="black" />}
     />
   );
 }

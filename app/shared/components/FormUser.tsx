@@ -77,6 +77,7 @@ function FormUser() {
               onBlur={onBlur}
               onChange={onChange}
               value={value}
+              icon="md-people"
             />
             {errors.name && <Text>{errors.name.message}</Text>}
           </>
@@ -96,6 +97,7 @@ function FormUser() {
               placeholder="Type your e-mail"
               onBlur={onBlur}
               onChange={onChange}
+              icon="mail"
             />
             {errors.email && <Text>{errors.email.message}</Text>}
           </>

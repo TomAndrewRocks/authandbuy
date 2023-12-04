@@ -7,6 +7,7 @@ import Favorites from '@screens/favorites';
 import Menu from '@screens/menu';
 import Payments from '@screens/payments';
 import { theme } from '@themes/theme';
+import { Platform } from 'react-native';
 
 const Drawer = createDrawerNavigator();
 
@@ -18,18 +19,21 @@ export default function MyDrawer() {
       initialRouteName="home"
       screenOptions={{
         headerShown: false,
+        drawerStyle: {
+          backgroundColor: '#f1f1f1',
+        },
+        drawerLabelStyle: {
+          color: 'yellow',
+        },
       }}
       drawerContent={(props) => <CustomDrawer {...props} />}>
       <Drawer.Screen
         name="Menu"
         component={Menu}
         options={{
-          drawerIcon: ({ focused, size, color }) => (
-            <Ionicons
-              name={focused ? 'home' : 'home-outline'}
-              size={size}
-              color={focused ? 'white' : color}
-            />
+          title: 'Menu',
+          drawerIcon: ({ focused, size }) => (
+            <Ionicons name={focused ? 'home' : 'home-outline'} size={size} color="#fff" />
           ),
         }}
       />
@@ -37,12 +41,9 @@ export default function MyDrawer() {
         name="Favorites"
         component={Favorites}
         options={{
-          drawerIcon: ({ focused, size, color }) => (
-            <Ionicons
-              name={focused ? 'heart' : 'heart-outline'}
-              size={size}
-              color={focused ? 'white' : color}
-            />
+          title: 'Favorites',
+          drawerIcon: ({ focused, size }) => (
+            <Ionicons name={focused ? 'heart' : 'heart-outline'} size={size} color="#fff" />
           ),
         }}
       />
@@ -50,12 +51,9 @@ export default function MyDrawer() {
         name="Payments"
         component={Payments}
         options={{
-          drawerIcon: ({ focused, size, color }) => (
-            <Ionicons
-              name={focused ? 'card' : 'card-outline'}
-              size={size}
-              color={focused ? 'white' : color}
-            />
+          title: 'Payments',
+          drawerIcon: ({ focused, size }) => (
+            <Ionicons name={focused ? 'card' : 'card-outline'} size={size} color="#fff" />
           ),
         }}
       />
@@ -64,12 +62,8 @@ export default function MyDrawer() {
           name="Local Authentication"
           component={Biometrics}
           options={{
-            drawerIcon: ({ focused, size, color }) => (
-              <Ionicons
-                name="finger-print"
-                size={size}
-                color={focused ? 'white' : color}
-              />
+            drawerIcon: ({ focused, size }) => (
+              <Ionicons name="finger-print" size={size} color="#fff" />
             ),
           }}
         />
