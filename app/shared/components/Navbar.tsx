@@ -3,7 +3,7 @@ import { theme } from '@themes/theme';
 import useMeasures from '@utils/useMeasures';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Alert, View } from 'react-native';
+import { Alert, TouchableOpacity, View } from 'react-native';
 
 import { DrawerButton } from './Buttons/DrawerButton';
 import { Sheet } from './Sheet';
@@ -31,13 +31,15 @@ export default function Navbar() {
         }}>
         <StatusBar style="light" backgroundColor={theme.lightColors?.primary} />
         <DrawerButton />
-        <Avatar
-          size={40}
-          source={{
-            uri: 'https://media.licdn.com/dms/image/D5603AQGsGqK8P09Q9g/profile-displayphoto-shrink_400_400/0/1699980715125?e=1706745600&v=beta&t=oqUYvHHKis-pBNxG9aRrHxkdu_fzihccEf3H_U6BIBk',
-          }}
-          onPress={() => setSheetGig(true)}
-        />
+        <TouchableOpacity onPress={() => setSheetGig(true)}>
+          <Avatar
+            rounded
+            size={45}
+            source={{
+              uri: 'https://media.licdn.com/dms/image/D5603AQGsGqK8P09Q9g/profile-displayphoto-shrink_400_400/0/1699980715125?e=1706745600&v=beta&t=oqUYvHHKis-pBNxG9aRrHxkdu_fzihccEf3H_U6BIBk',
+            }}
+          />
+        </TouchableOpacity>
       </View>
       <Sheet isOpen={isSheetOn} onPress={() => setSheetGig(false)} />
     </>

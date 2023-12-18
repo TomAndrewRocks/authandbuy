@@ -1,5 +1,6 @@
 import { Feather } from '@expo/vector-icons';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native';
 
 export const DrawerButton = () => {
   const navigation = useNavigation();
@@ -8,5 +9,9 @@ export const DrawerButton = () => {
     navigation.dispatch(DrawerActions.openDrawer());
   };
 
-  return <Feather name="align-justify" size={24} onPress={handleOpenDrawer} color="#000" />;
+  return (
+    <TouchableOpacity onPress={handleOpenDrawer}>
+      <Feather name="align-justify" size={24} color="#000" />
+    </TouchableOpacity>
+  );
 };

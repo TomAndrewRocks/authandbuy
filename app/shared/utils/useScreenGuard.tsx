@@ -1,7 +1,5 @@
 import * as LocalAuth from 'expo-local-authentication';
-import { router } from 'expo-router';
-import React from 'react';
-import { View, Text, Alert } from 'react-native';
+import { Alert } from 'react-native';
 
 import { useBiometrics } from '../contexts/useBiometrics';
 
@@ -41,7 +39,11 @@ export default function useScreenGuard() {
   };
 
   const handleBiometrics = () => {
-    setCheckBiometrics(!isBiometricsChecked);
+    if (!isBiometricsChecked) {
+      setTimeout(() => setCheckBiometrics(!isBiometricsChecked), 500);
+    } else {
+      setCheckBiometrics(!isBiometricsChecked);
+    }
     // check toggle
     handleFingerPrintValidation();
     // validate finger print

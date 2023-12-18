@@ -1,3 +1,4 @@
+import TextBox from '@components/Box/TextBox';
 import LayoutScreen from '@components/Layout';
 import { useBiometrics } from '@contexts/useBiometrics';
 import { Badge, Switch } from '@rneui/themed';
@@ -23,24 +24,33 @@ export default function Biometrics() {
         }}
       />
       <View style={{ gap: 30, alignItems: 'center' }}>
-        <Text style={{ textAlign: 'center' }}>
-          Activate your finger-print protection by checking it down below!
-        </Text>
-        <View>
+        <TextBox>
+          <Text>Activate your finger-print protection</Text>
+          <Text>by checking it down below!</Text>
+        </TextBox>
+        <View
+          style={{
+            width: '100%',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-evenly',
+          }}>
           <Switch
             value={isBiometricsChecked}
             onValueChange={handleBiometrics}
             color={isBiometricsChecked ? '' : 'gray'}
           />
-        </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text>Status: </Text>
-          <Badge
-            value={isBiometricsChecked ? 'Authenticated' : 'Unautenthicated'}
-            badgeStyle={{
-              backgroundColor: isBiometricsChecked ? theme.lightColors?.primary : 'gray',
-            }}
-          />
+          <View style={{ flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+            <Text>Status: </Text>
+            <Text
+              style={{
+                color: isBiometricsChecked ? theme.lightColors?.primary : 'gray',
+                borderBottomWidth: 1,
+                borderBottomColor: isBiometricsChecked ? theme.lightColors?.primary : 'gray',
+              }}>
+              {isBiometricsChecked ? 'Authenticated' : 'Unautenthicated'}
+            </Text>
+          </View>
         </View>
       </View>
     </LayoutScreen>

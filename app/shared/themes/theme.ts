@@ -10,7 +10,7 @@ export const theme = createTheme({
     background: '#FFFFFF',
   },
   darkColors: {
-    primary: '#000',
+    primary: '#171717',
   },
   spacing: {
     xs: 330,
