@@ -2,11 +2,14 @@ import TextBox from '@components/Box/TextBox';
 import ActionButton from '@components/Buttons/ActionButton';
 import LayoutScreen from '@components/Layout';
 import CardForm from '@components/Payments/CardForm';
+import { CreditCard } from '@components/Payments/CreditCard';
 import { useCreditCardStore } from '@contexts/ICreditCardStore';
 import { useBiometrics } from '@contexts/useBiometrics';
 import { CardTypeInfoProps, CreditCardProps } from '@interfaces/ICreditCard';
+import { Divider } from '@rneui/themed';
 import { theme } from '@themes/theme';
 import { useCreditCardValidator } from '@utils/useCreditCardValidator';
+import useFormatCardNumber from '@utils/useFormatCardNumber';
 import useMeasures from '@utils/useMeasures';
 import useScreenGuard from '@utils/useScreenGuard';
 import creditCardType from 'credit-card-type';
@@ -27,10 +30,13 @@ export default function Payments() {
   const [cardFlatlist, setCardFlatlist] = React.useState<CreditCardProps[] | []>([]);
   const cardValidator = useCreditCardValidator();
 
+  const formatCardNumber = useFormatCardNumber();
+
   const {
     control,
     reset,
-    formState: { errors },
+    trigger,
+    formState: { errors, isValid },
   } = useForm({
     resolver: cardValidator,
   });
@@ -63,39 +69,27 @@ export default function Payments() {
     setCardFlatlist(filteredList);
   }, [creditCardList]);
 
-  const formatCardNumber = (cardNumber: string) => {
-    if (!cardNumber) return '';
-    const formattedNumber = cardNumber
-      .replace(/\s/g, '')
-      .match(/.{1,4}/g)
-      ?.join(' ');
-    return formattedNumber || '';
+  const onSubmit = async () => {
+    const isValid = await trigger(); // Trigger validation
+
+    if (isValid) {
+      // Proceed with form submission
+      console.log('Form data is valid:');
+    } else {
+      // Show errors in the form
+      console.log('Form data is invalid');
+    }
   };
 
   React.useEffect(() => {
-    if (cardNumber.length >= 19) {
+    if (isValid) {
       Keyboard.dismiss();
+      onSubmit();
       setTimeout(() => {
         setSheetOpen(true);
       }, 300);
     }
-  }, [cardNumber]);
-
-  const onCancelSheet = () => {
-    setSheetOpen(false);
-  };
-
-  const onCompleteSheet = () => {
-    const isCardNumberExists = creditCardList.some((card) => card.cardNumber === cardNumber);
-    if (isCardNumberExists) {
-      Alert.alert('Duplicated Card', 'This card number is already added.');
-    } else {
-      addCreditCardToList(cardInfo[0]?.niceType, cardNumber);
-      setSheetOpen(false);
-      setShowCardForm(false);
-      reset();
-    }
-  };
+  }, [isValid]);
 
   const creditCardListReversed = React.useMemo(
     () => creditCardList.slice().reverse(),
@@ -130,7 +124,7 @@ export default function Payments() {
             />
           </View>
         </>
-      ) : (
+      ) : showCardForm ? (
         <CardForm
           control={control}
           errors={errors}
@@ -138,6 +132,27 @@ export default function Payments() {
           cardNumber={cardNumber}
           cardInfo={cardInfo}
           shouldProceed={shouldProceed}
+        />
+      ) : (
+        <FlatList
+          data={creditCardListReversed}
+          keyExtractor={(item) => item.cardNumber}
+          ItemSeparatorComponent={() => <Divider width={5} color={theme?.lightColors?.primary} />}
+          ListFooterComponentStyle={{ marginVertical: 35 }}
+          ListFooterComponent={
+            <ActionButton
+              icon="credit-card"
+              title="Add new Credit Card"
+              onPress={() => setShowCardForm(true)}
+            />
+          }
+          renderItem={({ item }) => (
+            <CreditCard
+              cardNumber={item.cardNumber}
+              flag={item.flag}
+              shouldProceed={shouldProceed}
+            />
+          )}
         />
       )}
     </LayoutScreen>

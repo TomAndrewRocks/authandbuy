@@ -1,42 +1,107 @@
-import { BottomSheet, Button, Icon, ListItem, Overlay } from '@rneui/base';
+import { useSheetStore } from '@contexts/ISheetStore';
+import { BottomSheet, Icon } from '@rneui/base';
 import { theme } from '@themes/theme';
 import React from 'react';
-import { Platform, Text } from 'react-native';
+import {
+  Animated,
+  Modal,
+  PanResponder,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 interface SheetProps {
   isOpen: boolean;
-  onPress: () => void;
+  children: React.ReactNode;
 }
 
-export const Sheet = (props: SheetProps) => {
+export const Sheet = ({ isOpen, children }: SheetProps) => {
+  const { setIsOpen } = useSheetStore();
+  const handleSheet = () => setIsOpen(!isOpen);
+  const translateY = React.useRef(new Animated.Value(0)).current;
+
+  const panResponder = React.useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderMove: Animated.event([null, { dy: translateY }], { useNativeDriver: false }),
+      onPanResponderRelease: (evt, gestureState) => {
+        if (gestureState.dy > 100) {
+          Animated.timing(translateY, {
+            toValue: 500,
+            duration: 300,
+            useNativeDriver: false,
+          }).start(() => {
+            setIsOpen(false);
+            translateY.setValue(0);
+          });
+        } else {
+          Animated.timing(translateY, {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: false,
+          }).start();
+        }
+      },
+    }),
+  ).current;
+
   if (Platform.OS === 'web') {
     return (
-      <Overlay isVisible={props.isOpen} onBackdropPress={props.onPress}>
-        <Text>Hello!</Text>
-        <Text>Welcome to React Native Elements</Text>
-        <Button
-          icon={
-            <Icon
-              name="wrench"
-              type="font-awesome"
-              color="white"
-              size={25}
-              iconStyle={{ marginRight: 10 }}
-            />
-          }
-          title="Start Building"
-          onPress={props.onPress}
-        />
-      </Overlay>
+      <Modal visible={isOpen} animationType="fade" transparent onRequestClose={handleSheet}>
+        <View style={styles.modalContainer}>
+          <View style={styles.sheetContainer}>
+            <TouchableOpacity style={styles.closeButton} onPress={handleSheet}>
+              <Icon name="close" type="ionicon" color="#517fa4" />
+            </TouchableOpacity>
+            <View style={styles.content}>{children}</View>
+          </View>
+        </View>
+      </Modal>
     );
   }
 
   return (
-    <BottomSheet modalProps={{}} isVisible={props.isOpen} onBackdropPress={props.onPress}>
-      <ListItem.Content style={{ backgroundColor: theme.lightColors?.white, height: 100 }}>
-        <ListItem.Title>Sheet</ListItem.Title>
-      </ListItem.Content>
-      <Button title="Fechar" onPress={props.onPress} />
+    <BottomSheet isVisible={isOpen} onBackdropPress={handleSheet}>
+      <Animated.View
+        style={[
+          styles.sheetContainer,
+          {
+            transform: [{ translateY }],
+          },
+        ]}
+        {...panResponder.panHandlers}>
+        <TouchableOpacity style={styles.closeButton} onPress={handleSheet}>
+          <Icon name="close" type="ionicon" color="#517fa4" />
+        </TouchableOpacity>
+        <View style={styles.content}>{children}</View>
+      </Animated.View>
     </BottomSheet>
   );
 };
+
+const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  sheetContainer: {
+    backgroundColor: theme.lightColors?.white,
+    borderRadius: 20,
+    padding: 20,
+  },
+  content: {
+    display: 'flex',
+    alignSelf: 'center',
+    marginVertical: 50,
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    zIndex: 1,
+  },
+});

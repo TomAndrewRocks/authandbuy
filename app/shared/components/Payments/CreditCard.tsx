@@ -1,13 +1,12 @@
 import { useBiometrics } from '@contexts/useBiometrics';
 import { Fontisto } from '@expo/vector-icons';
-import { Text } from '@rneui/themed';
+import { Divider, Text } from '@rneui/themed';
+import { theme } from '@themes/theme';
+import useFormatCardNumber from '@utils/useFormatCardNumber';
+import useMeasures from '@utils/useMeasures';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { Dimensions, View } from 'react-native';
-
-const window = Dimensions.get('window');
-const cardW = window.width * 0.9;
-const cardH = window.height * 0.23;
+import { Platform, View } from 'react-native';
 
 interface CardProps {
   flag: string;
@@ -15,8 +14,12 @@ interface CardProps {
   shouldProceed: boolean;
 }
 
+let displayCardNumber;
+
 export const CreditCard = ({ flag, cardNumber, shouldProceed }: CardProps) => {
   const { hasBiometrics, isBiometricsChecked } = useBiometrics();
+  const { width, height } = useMeasures();
+  const formatCardNumber = useFormatCardNumber();
 
   const handleCardGradientColors = (flag: string) => {
     const flagValue = flag?.toLowerCase();
@@ -33,12 +36,18 @@ export const CreditCard = ({ flag, cardNumber, shouldProceed }: CardProps) => {
   const handleFlagIcon = (flag: string) => {
     const flagValue = flag?.toLowerCase();
     if (flagValue === 'visa' && cardNumber.length > 0) {
-      return <Fontisto name="visa" size={24} color="#363636" />;
-    } else if (flagValue === 'mastercard') {
-      return <Fontisto name="mastercard" size={24} color="#363636" />;
+      return <Fontisto name="visa" size={24} color={theme.lightColors?.white} />;
+    } else if (flagValue === 'mastercard' && cardNumber.length > 0) {
+      return <Fontisto name="mastercard" size={24} color={theme.lightColors?.white} />;
     }
-    return flag;
+    return flagValue;
   };
+
+  if (hasBiometrics && isBiometricsChecked) {
+    displayCardNumber = shouldProceed ? formatCardNumber(cardNumber) : '**** **** **** ****';
+  } else {
+    displayCardNumber = formatCardNumber(cardNumber);
+  }
 
   return (
     <LinearGradient
@@ -47,29 +56,19 @@ export const CreditCard = ({ flag, cardNumber, shouldProceed }: CardProps) => {
       end={{ x: 1, y: 0 }}
       style={{
         alignSelf: 'center',
-        height: cardH,
-        width: cardW,
+        height: Platform.OS === 'web' ? height * 0.2 : height * 0.23,
+        width: Platform.OS === 'web' ? width * 0.2 : width * 0.8,
         padding: 12,
         borderRadius: 8,
       }}>
-      <View>
+      <View style={{ display: 'flex', justifyContent: 'space-between', height: '100%' }}>
         <View>
-          <View />
           <Text>{cardNumber && cardNumber.length > 0 && handleFlagIcon(flag)}</Text>
         </View>
-        <View>
-          <Text>
-            {hasBiometrics && isBiometricsChecked
-              ? shouldProceed
-                ? cardNumber
-                : '**** **** **** ****'
-              : cardNumber}
-          </Text>
-          {
-            cardNumber && cardNumber.length > 0 && '' // <Separator theme={!hasDarkTheme ? 'light' : 'dark'} />
-          }
+        <View style={{ gap: 10 }}>
+          <Text style={{ color: theme?.lightColors?.white }}>{displayCardNumber}</Text>
+          <Divider width={2} color={theme?.lightColors?.white} />
         </View>
-        <View />
       </View>
     </LinearGradient>
   );

@@ -5,7 +5,7 @@ import React from 'react';
 import { Platform } from 'react-native';
 
 export default function Input(props: ITextInput) {
-  const { width, height } = useMeasures();
+  const { width } = useMeasures();
   return (
     <TextInput
       value={props.value}

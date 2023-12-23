@@ -1,16 +1,16 @@
-import { Avatar } from '@rneui/themed';
+import { useSheetStore } from '@contexts/ISheetStore';
+import { Avatar, Text } from '@rneui/themed';
 import { theme } from '@themes/theme';
 import useMeasures from '@utils/useMeasures';
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Alert, TouchableOpacity, View } from 'react-native';
+import { StatusBar, TouchableOpacity, View } from 'react-native';
 
 import { DrawerButton } from './Buttons/DrawerButton';
 import { Sheet } from './Sheet';
 
 export default function Navbar() {
   const { height } = useMeasures();
-  const [isSheetOn, setSheetGig] = React.useState(false);
+  const { isOpen, setIsOpen } = useSheetStore();
   return (
     <>
       <View
@@ -29,9 +29,9 @@ export default function Navbar() {
           shadowRadius: 4,
           elevation: 5,
         }}>
-        <StatusBar style="light" backgroundColor={theme.lightColors?.primary} />
+        <StatusBar animated barStyle="light-content" backgroundColor={theme.lightColors?.primary} />
         <DrawerButton />
-        <TouchableOpacity onPress={() => setSheetGig(true)}>
+        <TouchableOpacity onPress={() => setIsOpen(!isOpen)}>
           <Avatar
             rounded
             size={45}
@@ -41,7 +41,9 @@ export default function Navbar() {
           />
         </TouchableOpacity>
       </View>
-      <Sheet isOpen={isSheetOn} onPress={() => setSheetGig(false)} />
+      <Sheet isOpen={isOpen}>
+        <Text>Would like to change your Avatar picture?</Text>
+      </Sheet>
     </>
   );
 }
