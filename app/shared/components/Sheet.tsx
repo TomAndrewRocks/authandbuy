@@ -1,4 +1,3 @@
-import { useSheetStore } from '@contexts/ISheetStore';
 import { BottomSheet, Icon } from '@rneui/base';
 import { theme } from '@themes/theme';
 import React from 'react';
@@ -15,11 +14,10 @@ import {
 interface SheetProps {
   isOpen: boolean;
   children: React.ReactNode;
+  onClose: () => void;
 }
 
-export const Sheet = ({ isOpen, children }: SheetProps) => {
-  const { setIsOpen } = useSheetStore();
-  const handleSheet = () => setIsOpen(!isOpen);
+export const Sheet = ({ isOpen, children, onClose }: SheetProps) => {
   const translateY = React.useRef(new Animated.Value(0)).current;
 
   const panResponder = React.useRef(
@@ -33,7 +31,7 @@ export const Sheet = ({ isOpen, children }: SheetProps) => {
             duration: 300,
             useNativeDriver: false,
           }).start(() => {
-            setIsOpen(false);
+            onClose();
             translateY.setValue(0);
           });
         } else {
@@ -49,10 +47,10 @@ export const Sheet = ({ isOpen, children }: SheetProps) => {
 
   if (Platform.OS === 'web') {
     return (
-      <Modal visible={isOpen} animationType="fade" transparent onRequestClose={handleSheet}>
+      <Modal visible={isOpen} animationType="fade" transparent onRequestClose={onClose}>
         <View style={styles.modalContainer}>
           <View style={styles.sheetContainer}>
-            <TouchableOpacity style={styles.closeButton} onPress={handleSheet}>
+            <TouchableOpacity style={styles.closeButton} onPress={onClose}>
               <Icon name="close" type="ionicon" color="#517fa4" />
             </TouchableOpacity>
             <View style={styles.content}>{children}</View>
@@ -63,7 +61,7 @@ export const Sheet = ({ isOpen, children }: SheetProps) => {
   }
 
   return (
-    <BottomSheet isVisible={isOpen} onBackdropPress={handleSheet}>
+    <BottomSheet isVisible={isOpen} onBackdropPress={onClose}>
       <Animated.View
         style={[
           styles.sheetContainer,
@@ -72,9 +70,6 @@ export const Sheet = ({ isOpen, children }: SheetProps) => {
           },
         ]}
         {...panResponder.panHandlers}>
-        <TouchableOpacity style={styles.closeButton} onPress={handleSheet}>
-          <Icon name="close" type="ionicon" color="#517fa4" />
-        </TouchableOpacity>
         <View style={styles.content}>{children}</View>
       </Animated.View>
     </BottomSheet>

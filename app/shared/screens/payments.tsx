@@ -3,6 +3,7 @@ import ActionButton from '@components/Buttons/ActionButton';
 import LayoutScreen from '@components/Layout';
 import CardForm from '@components/Payments/CardForm';
 import { CreditCard } from '@components/Payments/CreditCard';
+import { Sheet } from '@components/Sheet';
 import { useCreditCardStore } from '@contexts/ICreditCardStore';
 import { useBiometrics } from '@contexts/useBiometrics';
 import { CardTypeInfoProps, CreditCardProps } from '@interfaces/ICreditCard';
@@ -24,12 +25,11 @@ export default function Payments() {
   const { handleBiometrics } = useScreenGuard();
   const { isBiometricsChecked, hasBiometrics } = useBiometrics();
   const { creditCardList, addCreditCardToList } = useCreditCardStore();
+  const [isOpen, setOpen] = React.useState(false);
   const [showCardForm, setShowCardForm] = React.useState(false);
   const [shouldProceed, setShouldProceed] = React.useState(false);
-  const [isSheetOpen, setSheetOpen] = React.useState(false);
   const [cardFlatlist, setCardFlatlist] = React.useState<CreditCardProps[] | []>([]);
   const cardValidator = useCreditCardValidator();
-
   const formatCardNumber = useFormatCardNumber();
 
   const {
@@ -73,7 +73,7 @@ export default function Payments() {
     const isValid = await trigger(); // Trigger validation
 
     if (isValid) {
-      // Proceed with form submission
+      setShouldProceed(true);
       console.log('Form data is valid:');
     } else {
       // Show errors in the form
@@ -84,10 +84,8 @@ export default function Payments() {
   React.useEffect(() => {
     if (isValid) {
       Keyboard.dismiss();
+      setOpen(true);
       onSubmit();
-      setTimeout(() => {
-        setSheetOpen(true);
-      }, 300);
     }
   }, [isValid]);
 
@@ -117,7 +115,7 @@ export default function Payments() {
               <Text>a single credit card registered... (yet!)</Text>
             </TextBox>
             <ActionButton
-              title="Add Card"
+              title="Add new card"
               bgColor={theme.lightColors?.primary}
               onPress={() => setShowCardForm(true)}
               icon="card"
@@ -155,6 +153,32 @@ export default function Payments() {
           )}
         />
       )}
+      <Sheet isOpen={isOpen} onClose={() => setOpen(false)}>
+        <View
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            alignSelf: 'center',
+            gap: 30,
+          }}>
+          <Text>Would like to add this card to your account?</Text>
+          <View style={{ display: 'flex', flexDirection: 'row' }}>
+            <ActionButton
+              onPress={() => {}}
+              title="Add Card"
+              type="solid"
+              bgColor={theme.lightColors?.primary}
+            />
+            <ActionButton
+              onPress={() => setOpen(false)}
+              title="Cancel"
+              type="solid"
+              bgColor={theme.lightColors?.error}
+            />
+          </View>
+        </View>
+      </Sheet>
     </LayoutScreen>
   );
 }

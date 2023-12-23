@@ -6,7 +6,7 @@ import useFormatCardNumber from '@utils/useFormatCardNumber';
 import useMeasures from '@utils/useMeasures';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { Platform, View } from 'react-native';
+import { Animated, Easing, Platform, View } from 'react-native';
 
 interface CardProps {
   flag: string;
@@ -20,9 +20,31 @@ export const CreditCard = ({ flag, cardNumber, shouldProceed }: CardProps) => {
   const { hasBiometrics, isBiometricsChecked } = useBiometrics();
   const { width, height } = useMeasures();
   const formatCardNumber = useFormatCardNumber();
+  const flagValue = flag?.toLowerCase();
+  const rotateAnim = React.useRef(new Animated.Value(0)).current;
+
+  React.useEffect(() => {
+    if (
+      (flagValue === 'visa' && cardNumber.length > 0) ||
+      (flagValue === 'mastercard' && cardNumber.length > 0)
+    ) {
+      Animated.timing(rotateAnim, {
+        toValue: 1,
+        duration: 1000,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }).start(() => {
+        rotateAnim.setValue(0);
+      });
+    }
+  }, [flagValue]);
+
+  const rotateInterpolate = rotateAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
 
   const handleCardGradientColors = (flag: string) => {
-    const flagValue = flag?.toLowerCase();
     if (flagValue === 'visa' && cardNumber.length > 0) {
       return ['#007bffc5', '#dddddd'];
     } else if (flagValue === 'mastercard' && cardNumber.length > 0) {
@@ -50,26 +72,36 @@ export const CreditCard = ({ flag, cardNumber, shouldProceed }: CardProps) => {
   }
 
   return (
-    <LinearGradient
-      colors={handleCardGradientColors(flag)}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 0 }}
+    <Animated.View
       style={{
+        transform: [{ rotate: rotateInterpolate }],
         alignSelf: 'center',
         height: Platform.OS === 'web' ? height * 0.2 : height * 0.23,
         width: Platform.OS === 'web' ? width * 0.2 : width * 0.8,
         padding: 12,
         borderRadius: 8,
       }}>
-      <View style={{ display: 'flex', justifyContent: 'space-between', height: '100%' }}>
-        <View>
-          <Text>{cardNumber && cardNumber.length > 0 && handleFlagIcon(flag)}</Text>
+      <LinearGradient
+        colors={handleCardGradientColors(flag)}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        style={{
+          alignSelf: 'center',
+          height: Platform.OS === 'web' ? height * 0.2 : height * 0.23,
+          width: Platform.OS === 'web' ? width * 0.2 : width * 0.8,
+          padding: 12,
+          borderRadius: 8,
+        }}>
+        <View style={{ display: 'flex', justifyContent: 'space-between', height: '100%' }}>
+          <View>
+            <Text>{cardNumber && cardNumber.length > 0 && handleFlagIcon(flag)}</Text>
+          </View>
+          <View style={{ gap: 10 }}>
+            <Text style={{ color: theme?.lightColors?.white }}>{displayCardNumber}</Text>
+            {displayCardNumber && <Divider width={2} color={theme?.lightColors?.white} />}
+          </View>
         </View>
-        <View style={{ gap: 10 }}>
-          <Text style={{ color: theme?.lightColors?.white }}>{displayCardNumber}</Text>
-          <Divider width={2} color={theme?.lightColors?.white} />
-        </View>
-      </View>
-    </LinearGradient>
+      </LinearGradient>
+    </Animated.View>
   );
 };

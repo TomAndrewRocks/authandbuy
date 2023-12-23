@@ -6,7 +6,7 @@ export const theme = createTheme({
     secondary: '#F3DC0E',
     white: '#FFFFFF',
     black: '#000',
-    error: '#FF0000',
+    error: '#d83a3a',
     background: '#FFFFFF',
   },
   darkColors: {

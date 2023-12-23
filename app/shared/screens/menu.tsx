@@ -1,9 +1,8 @@
 import LayoutScreen from '@components/Layout';
-import Navbar from '@components/Navbar';
 import { useAuthStore } from '@contexts/useUserStore';
 import * as ImagePicker from 'expo-image-picker';
 import React from 'react';
-import { View, Text, Alert } from 'react-native';
+import { Text } from 'react-native';
 
 export default function Menu() {
   const { isUserLogged } = useAuthStore();

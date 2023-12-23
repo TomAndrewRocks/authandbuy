@@ -6,7 +6,10 @@ import React from 'react';
 export default function ActionButton(props: IButton) {
   return (
     <Button
-      buttonStyle={{ width: 150 }}
+      buttonStyle={{
+        width: 150,
+        backgroundColor: props.bgColor ? props.bgColor : theme.lightColors?.primary,
+      }}
       containerStyle={{
         margin: 5,
         display: 'flex',
@@ -25,7 +28,6 @@ export default function ActionButton(props: IButton) {
         size: 18,
         color: theme.lightColors?.white,
       }}
-      // iconContainerStyle={{ background: "#000" }}
       loadingProps={{ animating: true }}
       loadingStyle={{}}
       onPress={props.onPress}

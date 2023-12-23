@@ -1,4 +1,3 @@
-import { useSheetStore } from '@contexts/ISheetStore';
 import { Avatar, Text } from '@rneui/themed';
 import { theme } from '@themes/theme';
 import useMeasures from '@utils/useMeasures';
@@ -10,7 +9,8 @@ import { Sheet } from './Sheet';
 
 export default function Navbar() {
   const { height } = useMeasures();
-  const { isOpen, setIsOpen } = useSheetStore();
+  const [isOpen, setOpen] = React.useState(false);
+
   return (
     <>
       <View
@@ -31,7 +31,7 @@ export default function Navbar() {
         }}>
         <StatusBar animated barStyle="light-content" backgroundColor={theme.lightColors?.primary} />
         <DrawerButton />
-        <TouchableOpacity onPress={() => setIsOpen(!isOpen)}>
+        <TouchableOpacity onPress={() => setOpen(true)}>
           <Avatar
             rounded
             size={45}
@@ -41,7 +41,7 @@ export default function Navbar() {
           />
         </TouchableOpacity>
       </View>
-      <Sheet isOpen={isOpen}>
+      <Sheet isOpen={isOpen} onClose={() => setOpen(false)}>
         <Text>Would like to change your Avatar picture?</Text>
       </Sheet>
     </>
