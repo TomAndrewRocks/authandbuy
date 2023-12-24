@@ -40,7 +40,7 @@ export default function useScreenGuard() {
 
   const handleBiometrics = () => {
     if (!isBiometricsChecked) {
-      setTimeout(() => setCheckBiometrics(!isBiometricsChecked), 500);
+      setTimeout(() => setCheckBiometrics(!isBiometricsChecked), 150);
     } else {
       setCheckBiometrics(!isBiometricsChecked);
     }

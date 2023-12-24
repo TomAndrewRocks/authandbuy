@@ -19,11 +19,20 @@ let displayCardNumber;
 export const CreditCard = ({ flag, cardNumber, shouldProceed }: CardProps) => {
   const { hasBiometrics, isBiometricsChecked } = useBiometrics();
   const { width, height } = useMeasures();
-  const formatCardNumber = useFormatCardNumber();
+  const { formatNumber, showLastFourDigits } = useFormatCardNumber();
+
   const flagValue = flag?.toLowerCase();
   const rotateAnim = React.useRef(new Animated.Value(0)).current;
+  const opacityAnim = React.useRef(new Animated.Value(0)).current;
 
   React.useEffect(() => {
+    Animated.timing(opacityAnim, {
+      toValue: 1,
+      duration: 500,
+      easing: Easing.ease,
+      useNativeDriver: true,
+    }).start();
+
     if (
       (flagValue === 'visa' && cardNumber.length > 0) ||
       (flagValue === 'mastercard' && cardNumber.length > 0)
@@ -42,6 +51,11 @@ export const CreditCard = ({ flag, cardNumber, shouldProceed }: CardProps) => {
   const rotateInterpolate = rotateAnim.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '360deg'],
+  });
+
+  const opacityInterpolate = opacityAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 1],
   });
 
   const handleCardGradientColors = (flag: string) => {
@@ -66,20 +80,21 @@ export const CreditCard = ({ flag, cardNumber, shouldProceed }: CardProps) => {
   };
 
   if (hasBiometrics && isBiometricsChecked) {
-    displayCardNumber = shouldProceed ? formatCardNumber(cardNumber) : '**** **** **** ****';
+    displayCardNumber = shouldProceed ? formatNumber(cardNumber) : showLastFourDigits(cardNumber);
   } else {
-    displayCardNumber = formatCardNumber(cardNumber);
+    displayCardNumber = formatNumber(cardNumber);
   }
 
   return (
     <Animated.View
       style={{
-        transform: [{ rotate: rotateInterpolate }],
+        transform: [{ rotateY: rotateInterpolate }],
         alignSelf: 'center',
         height: Platform.OS === 'web' ? height * 0.2 : height * 0.23,
         width: Platform.OS === 'web' ? width * 0.2 : width * 0.8,
         padding: 12,
         borderRadius: 8,
+        opacity: opacityInterpolate,
       }}>
       <LinearGradient
         colors={handleCardGradientColors(flag)}

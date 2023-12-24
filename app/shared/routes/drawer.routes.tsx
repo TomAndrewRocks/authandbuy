@@ -6,6 +6,7 @@ import Biometrics from '@screens/biometrics';
 import Favorites from '@screens/favorites';
 import Menu from '@screens/menu';
 import Payments from '@screens/payments';
+import Security from '@screens/security';
 import { theme } from '@themes/theme';
 import { Platform } from 'react-native';
 
@@ -64,6 +65,17 @@ export default function MyDrawer() {
           options={{
             drawerIcon: ({ focused, size }) => (
               <Ionicons name="finger-print" size={size} color="#fff" />
+            ),
+          }}
+        />
+      )}
+      {Platform.OS === 'web' && (
+        <Drawer.Screen
+          name="Security"
+          component={Security}
+          options={{
+            drawerIcon: ({ focused, size }) => (
+              <Ionicons name="lock-open" size={size} color="#fff" />
             ),
           }}
         />

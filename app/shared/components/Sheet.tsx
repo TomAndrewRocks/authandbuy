@@ -85,13 +85,15 @@ const styles = StyleSheet.create({
   },
   sheetContainer: {
     backgroundColor: theme.lightColors?.white,
-    borderRadius: 20,
+    borderTopRightRadius: 16,
+    borderTopLeftRadius: 16,
+    borderRadius: Platform.OS === 'web' ? 16 : 0,
     padding: 20,
   },
   content: {
     display: 'flex',
     alignSelf: 'center',
-    marginVertical: 50,
+    marginVertical: 30,
   },
   closeButton: {
     position: 'absolute',

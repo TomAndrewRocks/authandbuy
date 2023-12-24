@@ -6,7 +6,7 @@ import useFormatCardNumber from '@utils/useFormatCardNumber';
 import useMeasures from '@utils/useMeasures';
 import React from 'react';
 import { Control, Controller, FieldErrors, FieldValues } from 'react-hook-form';
-import { View, Platform } from 'react-native';
+import { View, Platform, Keyboard } from 'react-native';
 
 import { CreditCard } from './CreditCard';
 
@@ -21,10 +21,10 @@ interface ICardForm {
 
 export default function CardForm(props: ICardForm) {
   const { width } = useMeasures();
-  const formatCardNumber = useFormatCardNumber();
+  const { formatNumber } = useFormatCardNumber();
 
   return (
-    <View style={{ gap: 40, alignItems: 'center' }}>
+    <View style={{ gap: 25, alignItems: 'center' }}>
       <TextBox>Manage your bank accounts with safety and swag!</TextBox>
       <View
         style={{
@@ -46,7 +46,7 @@ export default function CardForm(props: ICardForm) {
                   leftIcon={{ type: 'font-awesome', name: 'credit-card' }}
                   errorStyle={{ color: 'red' }}
                   keyboardType="numeric"
-                  value={formatCardNumber(value)}
+                  value={formatNumber(value)}
                   containerStyle={{ width: Platform.OS === 'web' ? width * 0.2 : width * 0.7 }}
                   onChangeText={(text) => {
                     const formattedText = text.replace(/[^\d]/g, '');

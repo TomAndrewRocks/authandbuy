@@ -7,5 +7,15 @@ export default function useFormatCardNumber() {
       ?.join(' ');
     return formattedNumber || '';
   };
-  return formatNumber;
+
+  const showLastFourDigits = (number: string) => {
+    if (!number) return '';
+    const lastFourDigits = number.slice(-4);
+    return `**** **** **** ${lastFourDigits}`;
+  };
+
+  return {
+    formatNumber,
+    showLastFourDigits,
+  };
 }

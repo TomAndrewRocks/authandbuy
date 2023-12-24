@@ -4,8 +4,8 @@ import LayoutScreen from '@components/Layout';
 import CardForm from '@components/Payments/CardForm';
 import { CreditCard } from '@components/Payments/CreditCard';
 import { Sheet } from '@components/Sheet';
-import { useCreditCardStore } from '@contexts/ICreditCardStore';
 import { useBiometrics } from '@contexts/useBiometrics';
+import { useCreditCardStore } from '@contexts/useCreditCardStore';
 import { CardTypeInfoProps, CreditCardProps } from '@interfaces/ICreditCard';
 import { Divider } from '@rneui/themed';
 import { theme } from '@themes/theme';
@@ -30,7 +30,7 @@ export default function Payments() {
   const [shouldProceed, setShouldProceed] = React.useState(false);
   const [cardFlatlist, setCardFlatlist] = React.useState<CreditCardProps[] | []>([]);
   const cardValidator = useCreditCardValidator();
-  const formatCardNumber = useFormatCardNumber();
+  const { formatNumber } = useFormatCardNumber();
 
   const {
     control,
@@ -52,13 +52,6 @@ export default function Payments() {
       setShouldProceed(false);
       setShowCardForm(false);
       reset();
-      if (hasBiometrics) {
-        if (isBiometricsChecked) {
-          if (creditCardList.length !== 0) {
-            handleBiometrics();
-          }
-        }
-      }
     }, [isBiometricsChecked, cardFlatlist]),
   );
 
@@ -70,14 +63,11 @@ export default function Payments() {
   }, [creditCardList]);
 
   const onSubmit = async () => {
-    const isValid = await trigger(); // Trigger validation
-
-    if (isValid) {
+    try {
       setShouldProceed(true);
       console.log('Form data is valid:');
-    } else {
-      // Show errors in the form
-      console.log('Form data is invalid');
+    } catch (error) {
+      console.log('Form data is invalid', error);
     }
   };
 
@@ -93,6 +83,20 @@ export default function Payments() {
     () => creditCardList.slice().reverse(),
     [creditCardList],
   );
+
+  const cardExists = creditCardList.some(
+    (card) => card.cardNumber === cardNumber && card.flag === cardInfo[0]?.niceType,
+  );
+
+  const handleNewCard = () => {
+    setOpen(false);
+    if (cardExists) {
+      Alert.alert('Card already added on your list! Try another card.');
+    } else {
+      addCreditCardToList(cardInfo[0]?.niceType, cardNumber);
+      console.log('Novo cartão adicionado com sucesso!');
+    }
+  };
 
   return (
     <LayoutScreen>
@@ -115,7 +119,7 @@ export default function Payments() {
               <Text>a single credit card registered... (yet!)</Text>
             </TextBox>
             <ActionButton
-              title="Add new card"
+              title="Add a card"
               bgColor={theme.lightColors?.primary}
               onPress={() => setShowCardForm(true)}
               icon="card"
@@ -126,7 +130,7 @@ export default function Payments() {
         <CardForm
           control={control}
           errors={errors}
-          formatCardNumber={formatCardNumber}
+          formatCardNumber={formatNumber}
           cardNumber={cardNumber}
           cardInfo={cardInfo}
           shouldProceed={shouldProceed}
@@ -135,14 +139,12 @@ export default function Payments() {
         <FlatList
           data={creditCardListReversed}
           keyExtractor={(item) => item.cardNumber}
-          ItemSeparatorComponent={() => <Divider width={5} color={theme?.lightColors?.primary} />}
+          ItemSeparatorComponent={() => (
+            <Divider width={1} color={theme.lightColors?.grey0} style={{ paddingVertical: 12 }} />
+          )}
           ListFooterComponentStyle={{ marginVertical: 35 }}
           ListFooterComponent={
-            <ActionButton
-              icon="credit-card"
-              title="Add new Credit Card"
-              onPress={() => setShowCardForm(true)}
-            />
+            <ActionButton icon="card" title="New card" onPress={() => setShowCardForm(true)} />
           }
           renderItem={({ item }) => (
             <CreditCard
@@ -162,21 +164,27 @@ export default function Payments() {
             alignSelf: 'center',
             gap: 30,
           }}>
-          <Text>Would like to add this card to your account?</Text>
-          <View style={{ display: 'flex', flexDirection: 'row' }}>
-            <ActionButton
-              onPress={() => {}}
-              title="Add Card"
-              type="solid"
-              bgColor={theme.lightColors?.primary}
-            />
-            <ActionButton
-              onPress={() => setOpen(false)}
-              title="Cancel"
-              type="solid"
-              bgColor={theme.lightColors?.error}
-            />
-          </View>
+          {cardExists ? (
+            <Text>Card already added on your list! Try another card.</Text>
+          ) : (
+            <>
+              <Text>Would like to add this card to your account?</Text>
+              <View style={{ display: 'flex', flexDirection: 'row' }}>
+                <ActionButton
+                  onPress={handleNewCard}
+                  title="Add Card"
+                  type="solid"
+                  bgColor={theme.lightColors?.primary}
+                />
+                <ActionButton
+                  onPress={() => setOpen(false)}
+                  title="Cancel"
+                  type="solid"
+                  bgColor={theme.lightColors?.error}
+                />
+              </View>
+            </>
+          )}
         </View>
       </Sheet>
     </LayoutScreen>
