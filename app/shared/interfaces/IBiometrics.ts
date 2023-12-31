@@ -2,7 +2,7 @@ export interface IUserBiometrics {
   isUserAuth: boolean | any;
   hasBiometrics: boolean | any;
   isBiometricsChecked: boolean | any;
-  setUserAuth: () => void;
+  setUserAuth: (val: boolean) => void;
   setUserBiometrics: (val: boolean) => void;
   setCheckBiometrics: (val: boolean) => void;
 }

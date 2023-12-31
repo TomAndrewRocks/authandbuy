@@ -1,16 +1,33 @@
-// PinInput.tsx
 import { Ionicons } from '@expo/vector-icons';
-import { PinInputProps } from '@interfaces/IPin';
 import React, { useEffect, useRef } from 'react';
-import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { Control, Controller } from 'react-hook-form';
+import { View, TextInput, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
-const PinInput: React.FC<PinInputProps> = ({ pin = '', setPin, length = 4 }) => {
+interface PinInputProps {
+  control: Control;
+  name: string;
+  pin: string;
+  setPin: (newPin: string) => void;
+  onSubmit: () => void;
+  error?: string;
+  length?: number;
+}
+
+const PinInput: React.FC<PinInputProps> = ({
+  control,
+  name,
+  pin = '',
+  setPin,
+  onSubmit,
+  error,
+  length = 4,
+}) => {
   const [showPassword, setShowPassword] = React.useState(false);
   const inputs = useRef<TextInput[]>([]);
 
   useEffect(() => {
     if (inputs.current.length > 0) {
-      inputs.current[0].focus();
+      inputs.current[0]?.focus();
     }
   }, []);
 
@@ -32,15 +49,31 @@ const PinInput: React.FC<PinInputProps> = ({ pin = '', setPin, length = 4 }) => 
 
   const renderPins = () => {
     return Array.from({ length }, (_, index) => (
-      <TextInput
+      <Controller
         key={index}
-        style={styles.pinInput}
-        keyboardType="numeric"
-        maxLength={1}
-        secureTextEntry={!showPassword}
-        onChangeText={(text) => handlePinChange(text, index)}
-        value={pin ? pin[index] : ''}
-        ref={(input) => (inputs.current[index] = input as TextInput)}
+        control={control}
+        render={({ field }) => (
+          <TextInput
+            style={styles.pinInput}
+            keyboardType="numeric"
+            maxLength={1}
+            onChangeText={(text) => {
+              field.onChange(text);
+              handlePinChange(text, field.name.length); // Atualize o PIN conforme necessário
+              if (text !== '' && field.name.length < length - 1) {
+                inputs.current[field.name.length + 1]?.focus();
+              }
+              if (field.name.length === length - 1) {
+                onSubmit(); // Submeta o formulário ao preencher todos os campos
+              }
+            }}
+            value={pin ? pin[field.name.length] : ''}
+            ref={(input) => (inputs.current[field.name.length] = input as TextInput)}
+          />
+        )}
+        name={`${name}[${index}]`}
+        defaultValue=""
+        rules={{ required: 'PIN is required' }}
       />
     ));
   };
@@ -48,6 +81,7 @@ const PinInput: React.FC<PinInputProps> = ({ pin = '', setPin, length = 4 }) => 
   return (
     <View style={styles.container}>
       {renderPins()}
+      {error && <Text style={{ color: 'red' }}>{error}</Text>}
       <TouchableOpacity onPress={toggleShowPassword} style={styles.eyeIcon}>
         <Ionicons name={showPassword ? 'eye-off-outline' : 'eye-outline'} size={24} color="black" />
       </TouchableOpacity>

@@ -4,19 +4,10 @@ import { Alert } from 'react-native';
 import { useBiometrics } from '../contexts/useBiometrics';
 
 export default function useScreenGuard() {
-  const { setUserAuth, isBiometricsChecked, setCheckBiometrics } = useBiometrics();
+  const { isUserAuth, setUserAuth, isBiometricsChecked, setCheckBiometrics } = useBiometrics();
 
   const handleFingerPrintValidation = async () => {
-    const isBiometricAllowed = await LocalAuth.isEnrolledAsync();
-    if (!isBiometricAllowed && !isBiometricsChecked) {
-      setCheckBiometrics(false);
-      return Alert.alert('Local Authentication', 'No finger-print recognized!');
-    }
-    // checking if finger-print is set
-
     if (!isBiometricsChecked) {
-      // calling the handle only when check goes true
-
       const auth = await LocalAuth.authenticateAsync({
         promptMessage: 'Biometric Login',
         fallbackLabel: 'Unrecognizable fingerprint!',
@@ -25,23 +16,44 @@ export default function useScreenGuard() {
       });
       // prompt of biometric auth
       if (auth.success) {
-        setUserAuth();
+        setUserAuth(true);
         if (auth.success) {
           //   router.push('/screens/view/onBoard');
         }
       } else if (auth.error === 'user_cancel' || auth.warning === 'Cancel') {
         setCheckBiometrics(false);
+        setUserAuth(false);
       }
-      // then user authenticated!
-    } else {
-      setUserAuth();
+    }
+  };
+
+  const handleScreenPass = async () => {
+    if (isUserAuth) {
+      const auth = await LocalAuth.authenticateAsync({
+        promptMessage: 'Biometric Login',
+        fallbackLabel: 'Unrecognizable fingerprint!',
+        cancelLabel: 'Cancel',
+        disableDeviceFallback: true,
+      });
+      // prompt of biometric auth
+      if (auth.success) {
+        setUserAuth(true);
+        if (auth.success) {
+          //   router.push('/screens/view/onBoard');
+        }
+      } else if (auth.error === 'user_cancel' || auth.warning === 'Cancel') {
+        setCheckBiometrics(false);
+        setUserAuth(false);
+      }
     }
   };
 
   const handleBiometrics = () => {
     if (!isBiometricsChecked) {
+      setUserAuth(true);
       setTimeout(() => setCheckBiometrics(!isBiometricsChecked), 150);
     } else {
+      setUserAuth(false);
       setCheckBiometrics(!isBiometricsChecked);
     }
     // check toggle
@@ -51,6 +63,7 @@ export default function useScreenGuard() {
 
   return {
     handleBiometrics,
+    handleScreenPass,
     handleFingerPrintValidation,
   };
 }

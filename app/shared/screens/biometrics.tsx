@@ -1,7 +1,7 @@
 import TextBox from '@components/Box/TextBox';
 import LayoutScreen from '@components/Layout';
 import { useBiometrics } from '@contexts/useBiometrics';
-import { Badge, Switch } from '@rneui/themed';
+import { Switch } from '@rneui/themed';
 import { theme } from '@themes/theme';
 import useMeasures from '@utils/useMeasures';
 import useScreenGuard from '@utils/useScreenGuard';
@@ -11,7 +11,7 @@ import { Text, View } from 'react-native';
 
 export default function Biometrics() {
   const { height } = useMeasures();
-  const { isBiometricsChecked } = useBiometrics();
+  const { isBiometricsChecked, isUserAuth } = useBiometrics();
   const { handleBiometrics } = useScreenGuard();
 
   return (
@@ -44,11 +44,11 @@ export default function Biometrics() {
             <Text>Status: </Text>
             <Text
               style={{
-                color: isBiometricsChecked ? theme.lightColors?.primary : 'gray',
+                color: isUserAuth ? theme.lightColors?.primary : 'gray',
                 borderBottomWidth: 1,
-                borderBottomColor: isBiometricsChecked ? theme.lightColors?.primary : 'gray',
+                borderBottomColor: isUserAuth ? theme.lightColors?.primary : 'gray',
               }}>
-              {isBiometricsChecked ? 'Authenticated' : 'Unautenthicated'}
+              {isUserAuth ? 'Authenticated' : 'Unautenthicated'}
             </Text>
           </View>
         </View>

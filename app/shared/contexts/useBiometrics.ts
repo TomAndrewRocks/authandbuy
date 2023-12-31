@@ -9,10 +9,7 @@ export const useBiometrics = create<IUserBiometrics>(
       isUserAuth: false,
       hasBiometrics: false,
       isBiometricsChecked: false,
-      setUserAuth: () =>
-        set((state) => ({
-          isUserAuth: !state.isUserAuth,
-        })),
+      setUserAuth: (value: boolean) => set({ isUserAuth: value }),
       setUserBiometrics: (val) => set({ hasBiometrics: val }),
       setCheckBiometrics: (value: boolean) =>
         set(() => ({

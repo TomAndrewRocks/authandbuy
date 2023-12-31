@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import { useAuthStore } from '@contexts/useUserStore';
 import { NavigationContainer } from '@react-navigation/native';
 import MyDrawer from '@routes/drawer.routes';

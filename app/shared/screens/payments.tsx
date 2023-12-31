@@ -22,8 +22,8 @@ import { Alert, FlatList, Keyboard, Platform, Text, View } from 'react-native';
 
 export default function Payments() {
   const { height } = useMeasures();
-  const { handleBiometrics } = useScreenGuard();
-  const { isBiometricsChecked, hasBiometrics } = useBiometrics();
+  const { handleScreenPass } = useScreenGuard();
+  const { isUserAuth } = useBiometrics();
   const { creditCardList, addCreditCardToList } = useCreditCardStore();
   const [isOpen, setOpen] = React.useState(false);
   const [showCardForm, setShowCardForm] = React.useState(false);
@@ -52,7 +52,8 @@ export default function Payments() {
       setShouldProceed(false);
       setShowCardForm(false);
       reset();
-    }, [isBiometricsChecked, cardFlatlist]),
+      handleScreenPass();
+    }, [isUserAuth, cardFlatlist]),
   );
 
   React.useEffect(() => {

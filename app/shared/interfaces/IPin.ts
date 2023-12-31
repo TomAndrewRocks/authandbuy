@@ -1,6 +1,8 @@
+import { Control } from 'react-hook-form';
+
 export interface PinInputProps {
-  pin: string | null;
+  pin: string | Control<{ pin: string }, any>;
   setPin: (newPin: string) => void;
-  length?: number;
+  length?: string;
   getDecryptedPin: () => void;
 }
