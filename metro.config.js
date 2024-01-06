@@ -16,7 +16,8 @@ module.exports = (async () => {
     ...config,
     resolver: {
       ...config.resolver,
-      sourceExts: [...sourceExts, 'mjs'],
+      sourceExts: [...sourceExts, 'mjs', 'js', 'jsx', 'json', 'ts', 'tsx', 'cjs'],
+      assetExts: ['glb', 'gltf', 'mtl', 'obj', 'png', 'jpg', 'ttf'],
     },
   };
 })();
