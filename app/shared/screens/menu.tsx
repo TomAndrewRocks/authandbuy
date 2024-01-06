@@ -3,6 +3,7 @@ import { useAuthStore } from '@contexts/useUserStore';
 import * as ImagePicker from 'expo-image-picker';
 import React from 'react';
 import { Text } from 'react-native';
+import { Canvas } from '@react-three/fiber';
 
 export default function Menu() {
   const { isUserLogged } = useAuthStore();
@@ -43,6 +44,14 @@ export default function Menu() {
       />
       <Text>{image && `${shortenedName}....${extension}`}</Text> */}
       <Text>{JSON.stringify(isUserLogged) ? 'User Logged' : 'Not authenthicated'}</Text>
+      <Canvas>
+        <mesh>
+          <ambientLight />
+          <sphereGeometry />
+          <meshStandardMaterial color="orange" />
+        </mesh>
+        <pointLight position={[10, 10, 10]} />
+      </Canvas>
     </LayoutScreen>
   );
 }
