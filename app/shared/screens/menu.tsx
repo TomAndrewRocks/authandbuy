@@ -1,38 +1,16 @@
-import LayoutScreen from '@components/Layout';
 import { useAuthStore } from '@contexts/useUserStore';
-import { OrbitControls, useGLTF } from '@react-three/drei';
-import { Canvas, useFrame } from '@react-three/fiber';
 import * as ImagePicker from 'expo-image-picker';
 import React from 'react';
-import { Text } from 'react-native';
-import { Mesh } from 'three';
-import Chair from '../../../assets/chair.glb';
-
-function Box(props: any) {
-  // This reference gives us direct access to the THREE.Mesh object
-  const ref = React.useRef<Mesh>(null);
-  // Hold state for hovered and clicked events
-  const [hovered, hover] = React.useState(false);
-  const [clicked, click] = React.useState(false);
-  // Subscribe this component to the render-loop, rotate the mesh every frame
-  useFrame((state, delta) => ref.current && (ref.current.rotation.x += delta));
-  // Return the view, these are regular Threejs elements expressed in JSX
-  return (
-    <mesh
-      {...props}
-      ref={ref}
-      scale={clicked ? 1.5 : 1}
-      onClick={(event) => click(!clicked)}
-      onPointerOver={(event) => hover(true)}
-      onPointerOut={(event) => hover(false)}>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
-    </mesh>
-  );
-}
+import Model from '@components/Model';
+import Navbar from '@components/Navbar';
+import LayoutScreen from '@components/Layout';
+import { View, StyleSheet } from 'react-native';
+import { Slider, Text, Icon } from '@rneui/themed';
 
 export default function Menu() {
   const { isUserLogged } = useAuthStore();
+  const [value, setValue] = React.useState(0);
+  const [vertValue, setVertValue] = React.useState(0);
 
   const [image, setImage] = React.useState<string | null>('');
   const pickImage = async () => {
@@ -55,27 +33,70 @@ export default function Menu() {
   const extension = filename && filename?.split('.')?.pop()?.toLowerCase();
   const shortenedName = filename && filename.substring(0, 20);
 
+  const interpolate = (start: number, end: number) => {
+    let k = (value - 0) / 10; // 0 =>min  && 10 => MAX
+    return Math.ceil((1 - k) * start + k * end) % 256;
+  };
+
+  const color = () => {
+    let r = interpolate(255, 0);
+    let g = interpolate(0, 255);
+    let b = interpolate(0, 0);
+    return `rgb(${r},${g},${b})`;
+  };
+
   return (
     <LayoutScreen>
-      {/* <ActionButton
-        onPress={pickImage}
-        bgColor={theme.colors.tertiary}
-        icon="camera-outline"
-        title="Profile Photo"
-        mode="outlined"
-        textColor={theme.colors.black}
-        style={{
-          width: '100%',
-        }}
-      />
-      <Text>{image && `${shortenedName}....${extension}`}</Text> */}
-      <Text>{isUserLogged ? 'User Logged' : 'Not authenthicated'}</Text>
-      <Canvas legacy>
-        <ambientLight />
-        <pointLight position={[10, 10, 10]} />
-        <Box position={[-1.2, 0, 0]} />
-        <Box position={[1.2, 0, 0]} />
-      </Canvas>
+      <Model />
+      <View style={[styles.contentView]}>
+        <Slider
+          value={value}
+          onValueChange={setValue}
+          maximumValue={10}
+          minimumValue={0}
+          step={1}
+          allowTouchTrack
+          trackStyle={{ height: 5, backgroundColor: 'transparent' }}
+          thumbStyle={{ height: 20, width: 20, backgroundColor: 'transparent' }}
+          thumbProps={{
+            children: (
+              <Icon
+                name="heartbeat"
+                type="font-awesome"
+                size={20}
+                reverse
+                containerStyle={{ bottom: 20, right: 20 }}
+                color={color()}
+              />
+            ),
+          }}
+        />
+        <Text style={{ paddingTop: 20 }}>Value: {value}</Text>
+      </View>
     </LayoutScreen>
   );
 }
+
+const styles = StyleSheet.create({
+  contentView: {
+    padding: 20,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+  },
+  verticalContent: {
+    padding: 20,
+    flex: 1,
+    flexDirection: 'row',
+    height: 500,
+    justifyContent: 'center',
+    alignItems: 'stretch',
+  },
+  subHeader: {
+    backgroundColor: '#2089dc',
+    color: 'white',
+    textAlign: 'center',
+    paddingVertical: 5,
+    marginBottom: 10,
+  },
+});
