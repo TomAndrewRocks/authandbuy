@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "ethereal-atlas-406211",
+  "private_key_id": "fa4287739e20bf05d6bc0c94ca87d986ec5c56ba",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDJi4R+P9RrjhXz\n/GSdpjQzrrx7CC/jykwoTCFqwJ/xs0KdQYUibkWW3SJJSXCv1Z2PZkFIHV6Q16Bv\nj9UkyLgcOz14AoV75r3L7/a0GptoymW3O5SBmsu5WKnG7foTkwqY4EiZraewDAWi\nrvNzA4SaH8UR/5/dvhX9MfSLbVnuBmQl+92xmw45mfzhi8QBuw4LuOjhQEmbOVa8\nzz+79+2MWAAUYWsWhQ9GAaDcczLYgc0KcsqFsS3x2Vnlf5kFF469TqLzoEDNRmSk\nI0JObZBkgRoqHm2t6ZD7u2hBIMrdux2/azfO0kCavkOlKRSPuVgAtQcP6SmRTB2t\nKidmjdT3AgMBAAECggEAEwoB/ycqeuqWOlE6dAYSYlt8ZKb2Vy9yGFBwy7PcqCmF\n/nMFD6aZHlJPfdrZMVMdqkE/o39awpYMCt3shagMdGZIPUEHuReoEE7f4E2vJqwQ\nBco0EjY8TosIpskuWZEHbD+rvBDCiYfpNGAQkWngqeqcZEHgqULesud4MX+oAisf\nbV1ghLaGIrxltdUSnTEVGWfNUDkEqU1Ndepu3iofqMp2vPYATRKJlJdIPegYBUS5\nh3mBX5rF21HBWPE1NIp6DGUmpIR+mGXdqZwbrsispi7craeX1jvJVOw3fsaZWlsQ\n1OmKLtdGBK/TAPBlz+D0y3sLJyLocTjT0r2vCNQHWQKBgQDuerpH2BQ5UTdzK1cD\nw/sbpTuMe4ti6Xk1UdfEUXWs9CtDSiMrgZbDgeDzRPV0LpIESJIS6vVesJI3T0PY\nsbDppe8dyWdpO0cmDIaXAKMlj/JZt0hXFp+RPIrkZ3jUf0XHaXC9gosyn0KJlFH/\nnCoGcF6P8ZVFLjqfY5aAW9M9SwKBgQDYWiKJO/BSmiDFvjIWCEFHWupp1csxm6Er\nQAyplGWlKXmLZm8nrZ+pdfCYNLD7GmD37gnd+RbNeR3sLqtO9Bn/kjd90XqAcxba\nYXPYIdIMmUgMY0b+54Y5HJ5dmfkA9N+kKHpJp3pAjjNq+OxOC3hMylvluSQRNJRS\n7cIOj9/XhQKBgQCfFGUQqbYL6f5oJ//6dhAah+UqN/tp9r4w8DBTN9eckKAPWfQO\nAHrWXdv1ywlFAA/NJa+zSOJ20Kgolwp2EUonAdZ48zG1Q6KZYf+h2P37f4M1j4qE\n9YVpt44bAF7cuS2N8OsQr3U1RoF3DuaH8N8jvm+F66wcItNeIWtyok5N8wKBgC74\nQo8wqBgGxh6oEA+gcyuenU2k0JxQgUj2eslGIlsdCfotnuwqUYNky3r/1XxuWab5\n0sKSFVU+ejSQXTii3hISGGIEXGgOlGOMzK2bihKaJH4r/3nPoeA8SlVf3CNNBlCJ\nSSM8bNofBSKwL/0xmEhzlkflTeM+WwU2AO9QZPRRAoGADpjPZlsMPc4n5CpXoRSr\nmgxO+Os6HYKHfuwGb3/oGx5Ej4kTxxH4syC/+JXt7K/qYKjXJyf4Gh6VLdUQ6j0+\n7ETjDJ/x0SC9ZGImqBG0Vdi+dCFBsCbsN5ig938tQNE/oK76EYzazli5deM9XTOq\n8kWkhutQsHpWw8qduRfs7XA=\n-----END PRIVATE KEY-----\n",
+  "client_email": "play-console-service-account@ethereal-atlas-406211.iam.gserviceaccount.com",
+  "client_id": "106265100517271359881",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/play-console-service-account%40ethereal-atlas-406211.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
