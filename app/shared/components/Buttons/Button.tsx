@@ -33,9 +33,9 @@ const twColors = {
     bg: tw`bg-warning-bg`,
     hover: tw`bg-warning-hover`,
   },
-  info: {
-    bg: tw`bg-info-bg`,
-    hover: tw`bg-info-hover`,
+  primary: {
+    bg: tw`bg-primary-bg`,
+    hover: tw`bg-primary-hover`,
   },
 };
 
@@ -62,7 +62,7 @@ export const ButtonText = ({ style, children }: TextProps) => {
     success: tw`text-green-50`,
     destructive: tw`text-red-50`,
     warning: tw`text-orange-50`,
-    info: tw`text-blue-50`,
+    primary: tw`text-blue-50`,
   };
 
   return (
@@ -84,29 +84,6 @@ export const Button = ({
 }: ButtonProps) => {
   const [hovered, setHovered] = useState(false);
   const [pressed, setPressed] = useState(false);
-
-  const variants = {
-    default: {
-      bg: tw`bg-neutral-800 dark:bg-neutral-50`,
-      hover: tw`bg-neutral-950 dark:bg-neutral-200`,
-    },
-    success: {
-      bg: tw`bg-green-600 dark:bg-green-700`,
-      hover: tw`bg-green-700 dark:bg-green-800`,
-    },
-    destructive: {
-      bg: tw`bg-red-600 dark:bg-red-700`,
-      hover: tw`bg-red-700 dark:bg-red-800`,
-    },
-    warning: {
-      bg: tw`bg-orange-600 dark:bg-orange-700`,
-      hover: tw`bg-orange-700 dark:bg-orange-800`,
-    },
-    info: {
-      bg: tw`bg-blue-600 dark:bg-blue-700`,
-      hover: tw`bg-blue-700 dark:bg-blue-800`,
-    },
-  };
 
   const renderContent = () => {
     if (text) {

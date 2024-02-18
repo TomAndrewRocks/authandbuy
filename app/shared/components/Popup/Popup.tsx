@@ -55,7 +55,7 @@ const Popup: React.ForwardRefRenderFunction<BottomSheetModal, PopupProps> = (
       enablePanDownToClose
       backdropComponent={renderBackdrop}
     >
-      <VStack>
+      <VStack style="items-center justify-center flex-1">
         {Platform.OS == "web" && (
           <HStack style="items-center justify-around w-full">
             <Text>hey</Text>

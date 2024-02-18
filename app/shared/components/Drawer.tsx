@@ -1,6 +1,7 @@
 import { useAuthStore } from "@contexts/useUserStore";
 import { Ionicons } from "@expo/vector-icons";
 import useMeasures from "@hooks/useMeasures";
+import usePallete from "@hooks/usePallete";
 import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
@@ -13,8 +14,9 @@ import React from "react";
 import { Alert } from "react-native";
 
 export default function CustomDrawer(props: DrawerContentComponentProps) {
-  const { height } = useMeasures();
   const navigation = useNavigation();
+  const { height } = useMeasures();
+  const { colorTheme } = usePallete();
   const { setUserLogged } = useAuthStore();
 
   const handleCloseDrawer = () => {
@@ -31,24 +33,25 @@ export default function CustomDrawer(props: DrawerContentComponentProps) {
       Alert.alert("Error logging out:", error.message);
     }
   };
+
   return (
     <DrawerContentScrollView
       contentContainerStyle={{
         flex: 1,
         paddingTop: height * 0.1,
-        // backgroundColor: theme.lightColors?.primary,
+        backgroundColor: colorTheme("primary-bg"),
       }}
     >
       <DrawerItemList {...props} />
       <DrawerItem
         label="Logout"
         onPress={handleLogout}
-        // labelStyle={{ color: theme.lightColors?.secondary }}
+        labelStyle={{ color: colorTheme("wheat-bg") }}
         icon={({ size }) => (
           <Ionicons
             name="log-out-outline"
             size={size}
-            // color={theme.lightColors?.white}
+            color={colorTheme("wheat-bg")}
           />
         )}
         style={{

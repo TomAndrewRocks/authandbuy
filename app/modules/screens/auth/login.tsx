@@ -27,7 +27,7 @@ export default function Login() {
         /> */}
         <Button
           text="Sign in"
-          variant="info"
+          variant="primary"
           onPress={() => {
             router.push("/shared/routes/drawer.routes");
             setUserLogged(true);

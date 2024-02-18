@@ -19,7 +19,7 @@ export default function Navbar() {
 
   const bottomSheetModalRef = React.useRef<BottomSheetModal>(null);
 
-  const snapPoints = React.useMemo(() => ["25%", "50%"], []);
+  const snapPoints = React.useMemo(() => ["15%", "35%"], []);
 
   const handleOpenSheet = () => bottomSheetModalRef.current?.present();
   const handleCloseSheet = () => bottomSheetModalRef.current?.dismiss();
@@ -45,7 +45,7 @@ export default function Navbar() {
           elevation: 5,
         }}
       >
-        <StatusBar animated barStyle="light-content" />
+        <StatusBar animated barStyle={"dark-content"} />
         <DrawerButton />
         <TouchableOpacity
           onPress={() => {

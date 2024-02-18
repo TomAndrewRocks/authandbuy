@@ -1,5 +1,6 @@
 import CustomDrawer from "@components/Drawer";
 import { Ionicons } from "@expo/vector-icons";
+import usePallete from "@hooks/usePallete";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Menu from "@screens/menu";
 import { Platform } from "react-native";
@@ -8,14 +9,16 @@ const Drawer = createDrawerNavigator();
 
 export default function MyDrawer() {
   //   const { hasBiometrics } = useBiometrics();
+  const { colorTheme } = usePallete();
 
   return (
     <Drawer.Navigator
       initialRouteName="home"
       screenOptions={{
         headerShown: false,
+        drawerStatusBarAnimation: "fade",
         drawerStyle: {
-          backgroundColor: "#f1f1f1",
+          backgroundColor: colorTheme("wheat-bg"),
         },
         drawerLabelStyle: {
           color: "yellow",
@@ -32,7 +35,7 @@ export default function MyDrawer() {
             <Ionicons
               name={focused ? "home" : "home-outline"}
               size={size}
-              color="#fff"
+              color={colorTheme("wheat-bg")}
             />
           ),
         }}

@@ -10,7 +10,8 @@
     "doc": "npx expo-doctor",
     "check": "npx expo install --check",
     "build": "npx eas build",
-    "submit": "npx eas submit"
+    "submit": "npx eas submit",
+    "clean:git:cache": "git rm -r --cached ."
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^4.6.0",
